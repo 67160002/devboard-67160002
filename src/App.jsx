@@ -1,10 +1,7 @@
-// import { useState } from 'react'
-// import reactLogo from './assets/react.svg'
-// import viteLogo from '/vite.svg'
-// import './App.css'
 import Navbar from "./components/Navbar";
-import PostCard from "./components/PostCard";
+// import PostCard from "./components/PostCard";
 import PostList from "./components/PostList";
+import UserCard from "./components/UserCard";
 const POSTS = [
   {
     id: 1,
@@ -38,9 +35,11 @@ function App() {
   return (
     <>
       <Navbar />
-      <PostCard title="ทดสอบ" body="นี่คือเนื้อหาทดสอบ" />
       <div style={{ padding: "2rem", maxWidth: "800px", margin: "auto" }}>
         <PostList posts={POSTS} />
+
+        <h1>Test</h1>
+        <UserCard name="สมชาย ใจดี" email="somchai@dev.com" />
       </div>
     </>
   );
