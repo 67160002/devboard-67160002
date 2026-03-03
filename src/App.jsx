@@ -3,6 +3,7 @@
 // import viteLogo from '/vite.svg'
 // import './App.css'
 import Navbar from "./components/Navbar";
+import PostCard from "./components/PostCard";
 const POSTS = [
   {
     id: 1,
@@ -36,6 +37,7 @@ function App() {
   return (
     <>
       <Navbar />
+      <PostCard title="ทดสอบ" body="นี่คือเนื้อหาทดสอบ" />
     </>
   );
 }
