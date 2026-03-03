@@ -4,6 +4,7 @@
 // import './App.css'
 import Navbar from "./components/Navbar";
 import PostCard from "./components/PostCard";
+import PostList from "./components/PostList";
 const POSTS = [
   {
     id: 1,
@@ -38,6 +39,9 @@ function App() {
     <>
       <Navbar />
       <PostCard title="ทดสอบ" body="นี่คือเนื้อหาทดสอบ" />
+      <div style={{ padding: "2rem", maxWidth: "800px", margin: "auto" }}>
+        <PostList posts={POSTS} />
+      </div>
     </>
   );
 }
