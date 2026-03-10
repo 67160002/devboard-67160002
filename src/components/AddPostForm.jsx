@@ -3,6 +3,7 @@ import { useState } from "react";
 function AddPostForm({ onAddPost }) {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
+  const maxLength = 100; //กำหนดจำนวนตัวอักษร
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -27,11 +28,32 @@ function AddPostForm({ onAddPost }) {
       <h3 style={{ margin: "0 0 0.75rem", color: "#2d3748" }}>
         เพิ่มโพสต์ใหม่
       </h3>
+      {/* เพิ่มตัวนับตัวอักษรตรงนี้ */}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          fontSize: "0.85rem",
+          marginBottom: "0.25rem",
+        }}
+      >
+        <span>หัวข้อโพสต์</span>
+
+        {/* ถ้าเหลือน้อยกว่า 10 ตัวให้เปลี่ยนเป็นสีแดง */}
+        <span
+          style={{
+            color: maxLength - title.length < 10 ? "red" : "#718096",
+          }}
+        >
+          {title.length}/{maxLength}
+        </span>
+      </div>
 
       <input
         type="text"
         placeholder="หัวข้อโพสต์"
         value={title}
+        maxLength={maxLength} //(เพิ่มมา) จำกัด input ไม่เกิน 100 ตัว
         onChange={(e) => setTitle(e.target.value)}
         style={{
           width: "100%",
