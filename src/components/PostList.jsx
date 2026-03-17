@@ -1,28 +1,61 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PostCard from "./PostCard";
+import LoadingSpinner from "./LoadingSpinner";
 
-function PostList({ posts, favorites, onToggleFavorite }) {
+function PostList({ favorites, onToggleFavorite }) {
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [search, setSearch] = useState("");
-  const [sortOrder, setSortOrder] = useState("desc"); // เพิ่ม state สำหรับ sort (desc = ใหม่ก่อน)
+  const [sortOrder, setSortOrder] = useState("desc");
 
   //  ฟังก์ชันสลับการ sort
   function toggleSort() {
     setSortOrder(sortOrder === "desc" ? "asc" : "desc");
   }
 
-  // กรองโพสต์ตาม search
+  useEffect(() => {
+    async function fetchPosts() {
+      try {
+        setLoading(true);
+        setError(null);
+        const res = await fetch("https://jsonplaceholder.typicode.com/posts");
+        if (!res.ok) throw new Error("ดึงข้อมูลไม่สำเร็จ");
+        const data = await res.json();
+        setPosts(data.slice(0, 20)); // เอาแค่ 20 รายการแรก
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchPosts();
+  }, []); // [] = ทำครั้งเดียวตอน component mount
+
   const filtered = posts.filter((post) =>
     post.title.toLowerCase().includes(search.toLowerCase()),
   );
 
-  // sort ก่อน map
   const sortedPosts = [...filtered].sort((a, b) => {
-    if (sortOrder === "desc") {
-      return b.id - a.id; // ใหม่ก่อน
-    } else {
-      return a.id - b.id; // เก่าก่อน
-    }
+    return sortOrder === "desc" ? b.id - a.id : a.id - b.id;
   });
+
+  if (loading) return <LoadingSpinner />;
+
+  if (error)
+    return (
+      <div
+        style={{
+          padding: "1.5rem",
+          background: "#fff5f5",
+          border: "1px solid #fc8181",
+          borderRadius: "8px",
+          color: "#c53030",
+        }}
+      >
+        เกิดข้อผิดพลาด: {error}
+      </div>
+    );
 
   return (
     <div>
@@ -36,7 +69,7 @@ function PostList({ posts, favorites, onToggleFavorite }) {
         โพสต์ล่าสุด
       </h2>
 
-      {/*  ปุ่ม sort */}
+      {/* ปุ่ม sort */}
       <button
         onClick={toggleSort}
         style={{
@@ -51,7 +84,7 @@ function PostList({ posts, favorites, onToggleFavorite }) {
         {sortOrder === "desc" ? "🔽 ใหม่สุดก่อน" : "🔼 เก่าสุดก่อน"}
       </button>
 
-      {/* Search Input */}
+      {/* search */}
       <input
         type="text"
         placeholder="ค้นหาโพสต์..."
@@ -68,19 +101,19 @@ function PostList({ posts, favorites, onToggleFavorite }) {
         }}
       />
 
-      {/* ถ้าไม่พบโพสต์ */}
+      {/* ไม่พบโพสต์ */}
       {filtered.length === 0 && (
         <p style={{ color: "#718096", textAlign: "center", padding: "2rem" }}>
           ไม่พบโพสต์ที่ค้นหา
         </p>
       )}
 
-      {/* แสดงรายการโพสต์ //ใช้ sortedPosts แทน filtered */}
+      {/* เปลี่ยน filtered เป็น sortedPosts(เรียงแล้ว) */}
+      {/* list */}
       {sortedPosts.map((post) => (
         <PostCard
           key={post.id}
-          title={post.title}
-          body={post.body}
+          post={post}
           isFavorite={favorites.includes(post.id)}
           onToggleFavorite={() => onToggleFavorite(post.id)}
         />
