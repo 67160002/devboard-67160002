@@ -1,11 +1,20 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "./components/Navbar";
 import PostList from "./components/PostList";
 import UserList from "./components/UserList";
 import AddPostForm from "./components/AddPostForm";
 
 function App() {
-  const [favorites, setFavorites] = useState([]);
+  // const [favorites, setFavorites] = useState([]);
+  // ✅ ใช้ localStorage
+  const [favorites, setFavorites] = useState(() => {
+    return JSON.parse(localStorage.getItem("favorites") || "[]");
+  });
+
+  // ✅ save ทุกครั้งที่เปลี่ยน
+  useEffect(() => {
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+  }, [favorites]);
 
   function handleToggleFavorite(postId) {
     setFavorites((prev) =>
