@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import PostCard from "./PostCard";
 import LoadingSpinner from "./LoadingSpinner";
 
-function PostList({ favorites, onToggleFavorite }) {
+function PostList() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -111,12 +111,7 @@ function PostList({ favorites, onToggleFavorite }) {
       {/* เปลี่ยน filtered เป็น sortedPosts(เรียงแล้ว) */}
       {/* list */}
       {sortedPosts.map((post) => (
-        <PostCard
-          key={post.id}
-          post={post}
-          isFavorite={favorites.includes(post.id)}
-          onToggleFavorite={() => onToggleFavorite(post.id)}
-        />
+        <PostCard key={post.id} post={post} />
       ))}
     </div>
   );

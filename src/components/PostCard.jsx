@@ -18,10 +18,14 @@ function PostCard({ post }) {
         background: "white",
       }}
     >
-      <h3 style={{ margin: "0 0 0.5rem", color: "#1e40af" }}>{post.title}</h3>
-      <p style={{ margin: "0 0 0.75rem", color: "#4a5568", lineHeight: 1.6 }}>
-        {post.body}
-      </p>
+      <h3 style={{ margin: "0 0 0.5rem", color: "#1e40af" }}>
+        <Link
+          to={`/posts/${post.id}`}
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
+          {post.title}
+        </Link>
+      </h3>
 
       <div style={{ display: "flex", gap: "0.5rem" }}>
         {/* ปุ่มถูกใจ */}
