@@ -77,7 +77,7 @@ function PostList() {
           padding: "0.4rem 0.8rem",
           borderRadius: "6px",
           border: "1px solid #cbd5e0",
-          background: "#edf2f7",
+          background: "#19538e",
           cursor: "pointer",
         }}
       >

@@ -26,6 +26,9 @@ function PostCard({ post }) {
           {post.title}
         </Link>
       </h3>
+      <p style={{ margin: "0 0 0.75rem", color: "#4a5568", lineHeight: 1.6 }}>
+        {post.body}
+      </p>
 
       <div style={{ display: "flex", gap: "0.5rem" }}>
         {/* ปุ่มถูกใจ */}
